@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "680450186778",
+    "project_id": "fir-app-iqbal",
+    "storage_bucket": "fir-app-iqbal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680450186778:android:38906cb9244be2b824bba3",
+        "android_client_info": {
+          "package_name": "com.firebaseappiqbalnew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680450186778-vqmbncb6un9gcmiga1m8kg7cdt89i650.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firebaseappiqbalnew",
+            "certificate_hash": "64790b1d7e7b80ef3d876d1e12cf6207cf188c2f"
+          }
+        },
+        {
+          "client_id": "680450186778-d1blq8siqc6r8p3mpd65po8t3jdlr7gv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0V64Z0SVlH0p8tduWPScdTL24gdjmd0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680450186778-d1blq8siqc6r8p3mpd65po8t3jdlr7gv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
