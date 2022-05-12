@@ -5,6 +5,9 @@ import messaging from '@react-native-firebase/messaging';
 import SplashScreen from 'react-native-splash-screen';
 import Root from './src/routes/Root';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistor, store} from './src/redux/store';
 
 GoogleSignin.configure({
   webClientId:
@@ -21,7 +24,11 @@ export default function App() {
     return unsubscribe;
   }, []);
   return (
-    <Root />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Root />
+      </PersistGate>
+    </Provider>
     // <View>
     //   <Button title="Test Crash" onPress={() => Crashlytics().crash()} />
     //   <TouchableOpacity

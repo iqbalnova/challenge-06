@@ -1,16 +1,21 @@
 import {Text, View, TouchableOpacity, ImageBackground} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Input, Button} from 'react-native-elements';
 
 import {ms} from 'react-native-size-matters';
 import SocialButton from '../../components/SocialButton';
 
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useDispatch, useSelector} from 'react-redux';
+import {setToken} from './redux/action';
 
 export default function Login({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const {token} = useSelector(state => state.login);
+  const dispatch = useDispatch();
 
   const postLogin = async () => {
     // if(username.length < 1){
@@ -54,8 +59,8 @@ export default function Login({navigation}) {
       console.log('click');
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
-
+      console.log(userInfo.idToken);
+      dispatch(setToken(userInfo.idToken));
       // this.setState({ userInfo });
     } catch (error) {
       console.log(error);
@@ -70,6 +75,14 @@ export default function Login({navigation}) {
       }
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      navigation.navigate('Main');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
   return (
     <View
       style={{
