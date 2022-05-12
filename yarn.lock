@@ -1466,6 +1466,11 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
+"@types/geojson@^7946.0.7":
+  version "7946.0.8"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
+  integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -4793,7 +4798,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.14.2, lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -5890,6 +5895,13 @@ react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-camera-kit@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-camera-kit/-/react-native-camera-kit-12.1.0.tgz#71149bb11be393ee4af8c6a600c4c4fdf33f83a1"
+  integrity sha512-iysY3YN8i1BWE7qRiLVgjanrGPtVUsczYDY89yqHbZHKWt2iZ5AiVyijTkHTmKXiK+GpclTvYnA415RgO06C3g==
+  dependencies:
+    lodash "^4.14.2"
+
 react-native-codegen@^0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.13.tgz#4cc94546fc75a5dbe9350d59c10108f2efe6bc17"
@@ -5941,6 +5953,14 @@ react-native-internet-connection-alert@^0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/react-native-internet-connection-alert/-/react-native-internet-connection-alert-0.1.8.tgz#0076a90dddfbf7b5c7f5c1703b1fe958920fee69"
   integrity sha512-d94r+16tSQKJ3B8mSaU0yc+zrF5KLzMG0NTa07Eq/Zd3RwrakbNMdoxBZ7Err/XOXzQQ+g/CEcCVN3Cz7vt95w==
+
+react-native-maps@^0.31.1:
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.31.1.tgz#574be035a52287e3ab1c1da35e2ce3e2116f0fd6"
+  integrity sha512-vipeOPykqLRMCLcLUCZEB+cTdNSlq88NLb0jChY4UGTY5fgOS7GYWkfswy6bW1ayTRLxJS3zpMGFDUY59/ZrXA==
+  dependencies:
+    "@types/geojson" "^7946.0.7"
+    deprecated-react-native-prop-types "^2.3.0"
 
 react-native-permissions@^3.3.1:
   version "3.3.1"
