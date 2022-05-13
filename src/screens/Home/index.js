@@ -1,7 +1,9 @@
 import Geolocation from '@react-native-community/geolocation';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {mapDarkStyle, mapRetro, mapStandardStyle} from '../../helpers/mapstyle';
 
 Geolocation.setRNConfiguration({
   enableHighAccuracy: false,
@@ -11,6 +13,17 @@ Geolocation.setRNConfiguration({
 
 const Home = () => {
   const [pos, setPos] = useState({});
+  const [pin, setPin] = useState({
+    latitude: -7.79285075950564,
+    longitude: 110.36558090019608,
+  });
+  const [region, setRegion] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
   useEffect(() => {
     Geolocation.getCurrentPosition(info => {
       console.log(info);
@@ -23,28 +36,63 @@ const Home = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        // fetchDetails={true}
+        onPress={(data, details = null) => {
+          // 'details' is provided when fetchDetails = true
+          console.log(data, details);
+          // setRegion({
+          //   latitude: details.geometry.location.lat,
+          //   longitude: details.geometry.location.lng,
+          //   latitudeDelta: 0.0922,
+          //   longitudeDelta: 0.0421,
+          // });
+        }}
+        query={{
+          key: 'AIzaSyDsUahpMgwXxH9f4uaChUR9Se-VmvZx1Yk',
+          language: 'en',
+        }}
+        styles={{
+          container: {flex: 0, position: 'absolute', width: '100%', zIndex: 1},
+          listView: {backgroundColor: '#fff'},
+        }}
+      />
       <View style={styles.container}>
         <MapView
           style={styles.mapStyle}
           provider={PROVIDER_GOOGLE}
           initialRegion={{
-            latitude: -7.79285075950564,
-            longitude: 110.36558090019608,
+            latitude: pos.lat ?? -7.79285075950564,
+            longitude: pos.long ?? 110.36558090019608,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
           showsUserLocation={true}
-          customMapStyle={mapDarkStyle}>
+          customMapStyle={mapRetro}>
           <Marker
-            draggable
-            coordinate={{
-              latitude: pos.lat ?? -7.79285075950564,
-              longitude: pos.long ?? 110.36558090019608,
+            draggable={true}
+            coordinate={pin}
+            pinColor="red"
+            onDragStart={e => {
+              console.log('Drag Start', e.nativeEvent.coordinates);
             }}
-            onDragEnd={e => alert(JSON.stringify(e.nativeEvent.coordinate))}
-            title={'Test Marker'}
-            description={'This is a description of the marker'}
-          />
+            onDragEnd={e =>
+              setPin({
+                latitude: e.nativeEvent.coordinate.latitude,
+                longitude: e.nativeEvent.coordinate.longitude,
+              })
+            }>
+            <Callout>
+              <Text>My Favourite Restaurant</Text>
+            </Callout>
+          </Marker>
+          {/* <Marker
+            coordinate={{
+              latitude: region.latitude ?? 0,
+              longtitude: region.longitude ?? 0,
+            }}
+          /> */}
         </MapView>
       </View>
     </SafeAreaView>
@@ -52,204 +100,6 @@ const Home = () => {
 };
 
 export default Home;
-
-const mapDarkStyle = [
-  {
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#212121',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.icon',
-    stylers: [
-      {
-        visibility: 'on',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#212121',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.country',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9e9e9e',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.land_parcel',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.locality',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#bdbdbd',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#181818',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#1b1b1b',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry.fill',
-    stylers: [
-      {
-        color: '#2c2c2c',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#8a8a8a',
-      },
-    ],
-  },
-  {
-    featureType: 'road.arterial',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#373737',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#3c3c3c',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway.controlled_access',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#4e4e4e',
-      },
-    ],
-  },
-  {
-    featureType: 'road.local',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    featureType: 'transit',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#000000',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#3d3d3d',
-      },
-    ],
-  },
-];
-
-const mapStandardStyle = [
-  {
-    elementType: 'labels.icon',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-];
 
 const styles = StyleSheet.create({
   container: {
@@ -260,6 +110,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    marginTop: 40,
   },
   mapStyle: {
     position: 'absolute',
