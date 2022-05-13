@@ -6,12 +6,6 @@ import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {mapDarkStyle, mapRetro, mapStandardStyle} from '../../helpers/mapstyle';
 
-// Geolocation.setRNConfiguration({
-//   enableHighAccuracy: false,
-//   timeout: 5000,
-//   maximumAge: 10000,
-// });
-
 const Home = () => {
   const [pos, setPos] = useState({});
   const [pin, setPin] = useState({
