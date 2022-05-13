@@ -23,6 +23,8 @@ target 'FirebaseIqbalNew' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
   target 'FirebaseIqbalNewTests' do
     inherit! :complete
     # Pods for testing

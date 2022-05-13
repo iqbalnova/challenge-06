@@ -8,6 +8,7 @@ import SocialButton from '../../components/SocialButton';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch, useSelector} from 'react-redux';
 import {setToken} from './redux/action';
+import FingerprintButton from '../../components/FingerprintButton';
 
 export default function Login({navigation}) {
   const [username, setUsername] = useState('');
@@ -131,24 +132,26 @@ export default function Login({navigation}) {
               justifyContent: 'center',
               marginTop: ms(10),
               marginBottom: ms(10),
+              marginHorizontal: ms(10),
+              flexDirection: 'row',
             }}>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: ms(11),
-                  marginTop: ms(5),
-                  marginBottom: ms(25),
-                }}>
-                Forget Password?
+            <TouchableOpacity
+              onPress={() => postLogin()}
+              style={{
+                flex: 4,
+                marginRight: 20,
+                backgroundColor: '#19bdc9',
+                height: 50,
+                justifyContent: 'center',
+                borderRadius: 10,
+              }}>
+              <Text style={{color: '#fff', textAlign: 'center', fontSize: 20}}>
+                Login
               </Text>
             </TouchableOpacity>
-            <Button onPress={postLogin} title={'Sign in'} />
-            <TouchableOpacity
-              style={{marginVertical: ms(10)}}
-              onPress={() => navigation.navigate('Register')}>
-              <Text style={{color: 'white'}}>SignUp</Text>
-            </TouchableOpacity>
+            <FingerprintButton />
+          </View>
+          <View style={{margin: 10}}>
             <SocialButton
               buttonTitle="Sign In with Google"
               btnType="google"
