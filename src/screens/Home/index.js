@@ -120,7 +120,7 @@ const Home = () => {
               })
             }>
             <Callout>
-              <Text>My Favourite Restaurant</Text>
+              <Text style={{color: 'black'}}>My Favourite Restaurant</Text>
             </Callout>
           </Marker>
           {/* <Marker
