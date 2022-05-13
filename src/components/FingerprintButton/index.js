@@ -8,8 +8,8 @@ import {useNavigation} from '@react-navigation/native';
 export default function FingerprintButton() {
   const navigation = useNavigation();
   const optionalConfigObject = {
-    title: 'Place your Finger to Scan',
-    imageColor: 'green', // Android
+    title: 'Authentication Required',
+    imageColor: '#e00606', // Android
     imageErrorColor: '#ff0000', // Android
     sensorDescription: 'Touch Sensor', // Android
     sensorErrorDescription: 'Failed', // Android
