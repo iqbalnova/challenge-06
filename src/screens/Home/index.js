@@ -3,13 +3,14 @@ import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import {mapDarkStyle, mapRetro, mapStandardStyle} from '../../helpers/mapstyle';
 
-Geolocation.setRNConfiguration({
-  enableHighAccuracy: false,
-  timeout: 5000,
-  maximumAge: 10000,
-});
+// Geolocation.setRNConfiguration({
+//   enableHighAccuracy: false,
+//   timeout: 5000,
+//   maximumAge: 10000,
+// });
 
 const Home = () => {
   const [pos, setPos] = useState({});
@@ -24,14 +25,55 @@ const Home = () => {
     longitudeDelta: 0.0421,
   });
 
+  const requestPermissions = React.useCallback(async () => {
+    const result = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    console.log(result);
+    switch (result) {
+      case RESULTS.UNAVAILABLE:
+        console.log(
+          'This feature is not available (on this device / in this context)',
+        );
+        break;
+      case RESULTS.DENIED:
+        const resRequest = await request(
+          PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+        );
+        console.log(resRequest);
+        console.log(
+          'The permission has not been requested / is denied but requestable',
+        );
+        break;
+      case RESULTS.LIMITED:
+        console.log('The permission is limited: some actions are possible');
+        break;
+      case RESULTS.GRANTED:
+        console.log('The permission is granted');
+        getCurrentLoc();
+        break;
+      case RESULTS.BLOCKED:
+        console.log('The permission is denied and not requestable anymore');
+        break;
+    }
+  }, []);
+
+  const getCurrentLoc = () => {
+    Geolocation.getCurrentPosition(
+      position => {
+        setPos({
+          lat: position.coords.latitude,
+          long: position.coords.longitude,
+        });
+      },
+      error => {
+        // See error code charts below.
+        console.log(error.code, error.message);
+      },
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    );
+  };
+
   useEffect(() => {
-    Geolocation.getCurrentPosition(info => {
-      console.log(info);
-      setPos({
-        lat: info.coords.latitude,
-        long: info.coords.longitude,
-      });
-    });
+    requestPermissions();
   }, []);
 
   return (
