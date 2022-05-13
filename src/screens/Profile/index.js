@@ -4,12 +4,15 @@ import {setToken} from '../Login/redux/action';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ms} from 'react-native-size-matters';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import Crashlytics from '@react-native-firebase/crashlytics';
+import auth from '@react-native-firebase/auth';
 
 export default function Profile({navigation}) {
   const dispatch = useDispatch();
+  const {token} = useSelector(state => state.login);
+
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
@@ -18,6 +21,23 @@ export default function Profile({navigation}) {
       navigation.navigate('Login');
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const logOut = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        navigation.navigate('Login');
+        console.log('out');
+      });
+  };
+
+  const allLogout = () => {
+    if (token) {
+      signOut();
+    } else {
+      logOut();
     }
   };
 
@@ -33,7 +53,13 @@ export default function Profile({navigation}) {
         onPress={() =>
           Alert.alert('Logout', 'Apakah anda yakin untuk logout ?', [
             {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-            {text: 'OK', onPress: () => signOut()},
+            {
+              text: 'OK',
+              onPress: () => {
+                allLogout();
+                signOut();
+              },
+            },
           ])
         }
         style={{

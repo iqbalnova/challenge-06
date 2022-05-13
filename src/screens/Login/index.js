@@ -1,4 +1,11 @@
-import {Text, View, TouchableOpacity, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Input, Button} from 'react-native-elements';
 
@@ -9,6 +16,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch, useSelector} from 'react-redux';
 import {setToken} from './redux/action';
 import FingerprintButton from '../../components/FingerprintButton';
+import auth from '@react-native-firebase/auth';
 
 export default function Login({navigation}) {
   const [username, setUsername] = useState('');
@@ -19,40 +27,33 @@ export default function Login({navigation}) {
   const dispatch = useDispatch();
 
   const postLogin = async () => {
-    // if(username.length < 1){
-    //   alert('Username tidak boleh kosong');
-    // }
-    // else if(password.length < 1 ){
-    //   alert('Password tidak boleh kosong');
-    // } else {
-    //   try {
-    //     setLoading(true);
-    //     const body = {
-    //       username: username, // mor_2314
-    //       password: password, // 83r5^_
-    //     };
-    //     const res = await axios.post(`${BaseUrlApi}/auth/login`, body, {
-    //       validateStatus: status => status < 501});
-    //     console.log(res);
-    //     if(res.status <= 201){
-    //       navigation.navigate("Main")
-    //     } else {
-    //       alert("Username atau password Salah")
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   } finally{
-    //     setLoading(false);
-    //   }
-    // }
+    setLoading(true);
+    auth()
+      .signInWithEmailAndPassword(username, password)
+      .then(e => {
+        navigation.navigate('Main');
+
+        console.log(e);
+        setLoading(false);
+      })
+      .catch(() => {
+        Alert.alert('Invalid credentials');
+        setLoading(false);
+      });
   };
 
-  // if(loading){
-  //   return(
-  //     <View style={{ flex:1,backgroundColor:'#fff', justifyContent:'center', alignItems:'center' }}>
-  //       <LottieView style={{ flex:1 }} source={require('../../helpers/loadingMovie.json')} autoPlay loop />
+  // if (loading) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: '#fff',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //       }}>
+  //       <ActivityIndicator size={20} color="red" />
   //     </View>
-  //   )
+  //   );
   // }
 
   const _signIn = async () => {
@@ -111,13 +112,13 @@ export default function Login({navigation}) {
               justifyContent: 'center',
             }}>
             <Input
-              style={{height: ms(50), color: 'white'}}
+              style={{height: ms(50), color: 'black'}}
               label="Username"
               placeholder=" "
               onChangeText={text => setUsername(text)}
             />
             <Input
-              style={{height: ms(50), color: 'white'}}
+              style={{height: ms(50), color: 'black'}}
               label="Password"
               placeholder=" "
               onChangeText={text => setPassword(text)}
@@ -135,20 +136,25 @@ export default function Login({navigation}) {
               marginHorizontal: ms(10),
               flexDirection: 'row',
             }}>
-            <TouchableOpacity
-              onPress={() => postLogin()}
-              style={{
-                flex: 4,
-                marginRight: 20,
-                backgroundColor: '#19bdc9',
-                height: 50,
-                justifyContent: 'center',
-                borderRadius: 10,
-              }}>
-              <Text style={{color: '#fff', textAlign: 'center', fontSize: 20}}>
-                Login
-              </Text>
-            </TouchableOpacity>
+            {loading ? (
+              <ActivityIndicator />
+            ) : (
+              <TouchableOpacity
+                onPress={() => postLogin()}
+                style={{
+                  flex: 4,
+                  marginRight: 20,
+                  backgroundColor: '#19bdc9',
+                  height: 50,
+                  justifyContent: 'center',
+                  borderRadius: 10,
+                }}>
+                <Text
+                  style={{color: '#fff', textAlign: 'center', fontSize: 20}}>
+                  Login
+                </Text>
+              </TouchableOpacity>
+            )}
             <FingerprintButton />
           </View>
           <View style={{margin: 10}}>
